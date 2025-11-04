@@ -84,13 +84,36 @@ setx OPENSSL_ROOT_DIR "C:\Program Files\OpenSSL-Win64"
 5. **Run:**
    - Press `F5` (Debug mode) or `Ctrl+F5` (Run without debugging)
 
-### Alternative: Command Line Build
+### Alternative: Command Line Build with MSBuild
 
 ```cmd
 # Open Visual Studio Developer Command Prompt for VS 2022
 cd OpenSSL-Certificate-Managament
 msbuild CertManager.sln /p:Configuration=Release /p:Platform=x64
 ```
+
+### Alternative: CMake Build (Cross-Platform)
+
+For those who prefer CMake or want to build on other platforms:
+
+```cmd
+# Create build directory
+mkdir build
+cd build
+
+# Configure
+cmake .. -DCMAKE_BUILD_TYPE=Release
+
+# Build
+cmake --build . --config Release
+
+# Run
+.\bin\Release\CertManager.exe  # Windows
+# or
+./bin/CertManager              # Linux/macOS
+```
+
+**Note:** CMake build requires OpenSSL to be findable by CMake's `find_package()`. On Windows, ensure `OPENSSL_ROOT_DIR` is set.
 
 ## Usage
 
@@ -153,13 +176,17 @@ The application will:
 ```
 OpenSSL-Certificate-Managament/
 ├── CertManager.sln                    # Visual Studio solution file
+├── CMakeLists.txt                     # CMake build configuration
 ├── CertManager/
 │   ├── CertManager.vcxproj           # Visual Studio project file
+│   ├── CertManager.vcxproj.filters   # VS project file organization
 │   ├── main.cpp                       # Application entry point with menu
 │   ├── CertificateManager.h          # Certificate manager header
 │   └── CertificateManager.cpp        # Certificate manager implementation
 ├── pki/                               # PKI directory (created at runtime)
-└── README.md                          # This file
+├── README.md                          # This file
+├── BUILD_INSTRUCTIONS.md              # Detailed build guide
+└── USAGE.md                           # Usage examples and documentation
 ```
 
 ## Troubleshooting
